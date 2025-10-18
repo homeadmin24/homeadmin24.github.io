@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>homeadmin24 - WEG-Verwaltung mit AI & Open-Source</title>
+    <meta name="description" content="Moderne Hausgeldabrechnung mit künstlicher Intelligenz und Open-Source Software. Professionelle WEG-Verwaltung in München.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0f0f1e;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            opacity: 0.95;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-bottom: 40px;
+            padding: 40px 0 20px 0;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .hero-text {
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+            flex-wrap: nowrap;
+        }
+
+        .hero-content h1 {
+            font-size: 3.6em;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            line-height: 1.1;
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.9);
+            margin: 0;
+            font-weight: 400;
+            padding-top: 8px;
+        }
+
+        .button-row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .button-row .demo-btn {
+            margin: 0;
+        }
+
+        .highlight {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .demo-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #48bb78;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(72, 187, 120, 0.4);
+            margin: 0;
+            white-space: nowrap;
+            vertical-align: middle;
+            min-width: 140px;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(72, 187, 120, 0.6);
+            background: #38a169;
+        }
+
+        /* Services Grid */
+        .services-section {
+            margin: 20px 0 60px 0;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 45px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .service-badge {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .service-icon {
+            font-size: 1.8em;
+            margin-right: 20px;
+        }
+
+        .service-name {
+            font-size: 1.4em;
+            color: #3b82f6;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .service-target {
+            color: #999;
+            font-size: 0.5em;
+            font-weight: 400;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .service-description {
+            color: #666;
+            font-size: 1.05em;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .features-list li {
+            padding: 15px 0 15px 40px;
+            position: relative;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+
+        .features-list li:hover {
+            background: #f8f9fa;
+            padding-left: 45px;
+        }
+
+        .features-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 1.5em;
+            top: 12px;
+        }
+
+        .features-list li strong {
+            color: #333;
+            font-weight: 700;
+            font-size: 1.05em;
+        }
+
+        .features-list li .sub {
+            display: block;
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 5px;
+            line-height: 1.6;
+        }
+
+        .pricing-box {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            padding: 8px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .pricing-item {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .pricing-item:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-item .price-label {
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        .pricing-item .price-detail {
+            font-size: 0.85em;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin: 60px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .faq-section h2 {
+            font-size: 2.5em;
+            color: #3b82f6;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #3b82f6;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            background: #fff;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateX(5px);
+        }
+
+        .faq-question {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            color: #666;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+
+        .faq-answer ul {
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin: 60px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-section h2 {
+            font-size: 2.5em;
+            color: #3b82f6;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .contact-section p {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .contact-email {
+            display: inline-block;
+            font-size: 1.8em;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 20px 40px;
+            border: 3px solid #3b82f6;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .contact-email:hover {
+            background: #3b82f6;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Impressum & Datenschutz Section */
+        .legal-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            margin: 30px 0 10px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .legal-section h3 {
+            font-size: 1em;
+            color: #3b82f6;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .legal-section h4 {
+            font-size: 0.9em;
+            color: #3b82f6;
+            margin: 15px 0 8px 0;
+            font-weight: 700;
+        }
+
+        .legal-content {
+            color: #666;
+            font-size: 0.75em;
+            line-height: 1.6;
+        }
+
+        .legal-content p {
+            margin: 5px 0;
+        }
+
+        .legal-content strong {
+            color: #333;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px 0;
+            margin-top: 10px;
+        }
+
+        .footer-links {
+            margin: 20px 0;
+        }
+
+        .footer-links a,
+        .footer-links span {
+            color: white;
+            text-decoration: none;
+            margin: 0 8px;
+            padding: 0;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ffd700;
+            text-decoration: underline;
+        }
+
+        .footer-copyright {
+            margin-top: 20px;
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-text {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .hero-content .tagline {
+                padding-top: 0;
+            }
+
+            .hero-content h1 {
+                white-space: normal;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .hero-content h1 {
+                font-size: 2.8em;
+            }
+
+            .hero-content .tagline {
+                font-size: 1.0em;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .faq-section,
+            .contact-section {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-content h1 {
+                font-size: 2.5em;
+            }
+
+            .hero-content .tagline {
+                font-size: 0.95em;
+            }
+
+            .demo-btn {
+                width: 100%;
+            }
+
+            .button-row {
+                width: 100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero, .service-card, .faq-section, .contact-section {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .service-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>HOMEADMIN24</h1>
+                    <p class="tagline">
+                        Moderne WEG-Verwaltung mit <span class="highlight">AI & Open-Source</span>
+                    </p>
+                </div>
+                <div class="button-row">
+                    <a href="https://demo.homeadmin24.de" class="demo-btn" target="_blank">
+                        🎮 Live-Demo
+                    </a>
+                    <a href="https://github.com/homeadmin24/homeadmin24" target="_blank" class="demo-btn" style="background: #6b7280; box-shadow: 0 5px 20px rgba(107, 114, 128, 0.4); display: inline-flex; align-items: center; gap: 6px; justify-content: center;">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        Open-Source
+                    </a>
+                    <a href="mailto:info@homeadmin24.de" class="demo-btn" style="background: #3b82f6; box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);">
+                        📧 Kontakt
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Section -->
+        <section class="services-section">
+            <div class="services-grid">
+                <!-- Box 1: Für Unternehmen und Eigentümer -->
+                <div class="service-card">
+                    <span class="service-badge">Für Unternehmen & Eigentümer</span>
+                    <div class="service-header">
+                        <div class="service-icon">📊</div>
+                        <div>
+                            <h3 class="service-name">Hausgeldabrechnung</h3>
+                        </div>
+                    </div>
+
+                    <p class="service-description">
+                        Professionelle Jahresabrechnung - digital, präzise und gesetzeskonform.
+                    </p>
+
+                    <ul class="features-list">
+                        <li>
+                            <strong>Eigentümer-Abrechnungen</strong>
+                            <span class="sub">Individuelle Abrechnungen mit Kostenverteilung nach MEA</span>
+                        </li>
+                        <li>
+                            <strong>WEG-Gesetz konform</strong>
+                            <span class="sub">Vollständige Einhaltung aller gesetzlichen Anforderungen nach §28 WEG</span>
+                        </li>
+                        <li>
+                            <strong>§35a EStG Bescheinigungen</strong>
+                            <span class="sub">Automatische Steuerberechnung für haushaltsnahe Dienstleistungen</span>
+                        </li>
+                    </ul>
+
+                    <div class="pricing-box">
+                        <div class="pricing-item">
+                            <div class="price-detail">600 € pauschal für WEG mit max. 4 Einheiten</div>
+                            <div class="price-detail"><a href="mailto:info@homeadmin24.de?subject=Anfrage%20Hausgeldabrechnung" style="color: inherit; text-decoration: underline;">Größere WEG auf Anfrage</a></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box 2: Für Unternehmen -->
+                <div class="service-card">
+                    <span class="service-badge">Für Unternehmen</span>
+                    <div class="service-header">
+                        <div class="service-icon">💼</div>
+                        <div>
+                            <h3 class="service-name">Entwicklung & Consulting</h3>
+                        </div>
+                    </div>
+
+                    <p class="service-description">
+                        Professionelle Software-Entwicklung für Ihre individuellen Anforderungen.
+                    </p>
+
+                    <ul class="features-list">
+                        <li>
+                            <strong>Open-Source Consulting</strong>
+                            <span class="sub">Projekt-Personalisierung, Schnittstellen und Extension-Entwicklung</span>
+                        </li>
+                        <li>
+                            <strong>AI-Modell Training</strong>
+                            <span class="sub">LLM Implementierung für Ihre Verwaltung - Privacy-First & DSGVO-konform</span>
+                        </li>
+                        <li>
+                            <strong>DevOps & Hosting in Deutschland</strong>
+                            <span class="sub">WEG-Software Integration, Cloud-Migration, Prozess-Automatisierung</span>
+                        </li>
+                    </ul>
+
+                    <div class="pricing-box">
+                        <div class="pricing-item">
+                            <div class="price-detail">60 €/h Stundensatz</div>
+                            <div class="price-detail"><a href="mailto:info@homeadmin24.de?subject=Anfrage%20Entwicklung%20%26%20Consulting" style="color: inherit; text-decoration: underline;">Festpreise für Projekte auf Anfrage</a></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box 3: Für Eigentümer -->
+                <div class="service-card">
+                    <span class="service-badge">Für Eigentümer</span>
+                    <div class="service-header">
+                        <div class="service-icon">🏠</div>
+                        <div>
+                            <h3 class="service-name">WEG-Verwaltung</h3>
+                        </div>
+                    </div>
+
+                    <p class="service-description">
+                        Vollständige Verwaltungsdienstleistungen für Ihre Eigentümergemeinschaft.
+                    </p>
+
+                    <ul class="features-list">
+                        <li>
+                            <strong>Buchhaltung</strong>
+                            <span class="sub">Professionelle Finanzverwaltung Ihrer WEG im Eigentümer-Portal</span>
+                        </li>
+                        <li>
+                            <strong>Dienstleistermanagement</strong>
+                            <span class="sub">Koordination aller Handwerker und Dienstleister</span>
+                        </li>
+                        <li>
+                            <strong>Organisation</strong>
+                            <span class="sub">von Eigentümerversammlungen, Protokollierung und Beschlussverwaltung</span>
+                        </li>
+                    </ul>
+
+                    <div class="pricing-box">
+                        <div class="pricing-item">
+                            <div class="price-detail">60 € pro Einheit/Monat (ink. HGA)</div>
+                            <div class="price-detail"><a href="mailto:info@homeadmin24.de?subject=Anfrage%20WEG-Verwaltung" style="color: inherit; text-decoration: underline;">Festpreise auf Anfrage</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>❓ Häufig gestellte Fragen</h2>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">🔍 Was ist homeadmin24?</div>
+                    <div class="faq-answer">
+                        Moderne <strong>Open-Source Software</strong> für WEG-Verwaltung mit KI-gestützter
+                        Automatisierung von Routineaufgaben.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">💡 Warum Open-Source?</div>
+                    <div class="faq-answer">
+                        <strong>Transparenz, Sicherheit, Unabhängigkeit.</strong>
+                        Volle Kontrolle über Ihre Daten, keine Vendor Lock-ins, kostenlose Basissoftware.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">🤖 Was bedeutet AI-gestützt?</div>
+                    <div class="faq-answer">
+                        Automatische Kategorisierung, Rechnungsextraktion, Qualitätssicherung.
+                        <strong>Privacy-First:</strong> Lokale Verarbeitung möglich.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">🔧 Individuelle Anpassungen?</div>
+                    <div class="faq-answer">
+                        <strong>Ja!</strong> Maßgeschneiderte Erweiterungen, System-Integration,
+                        Custom AI-Training. Pauschalpreise auf Anfrage.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">📍 Standort & Verfügbarkeit</div>
+                    <div class="faq-answer">
+                        Ansässig in <strong>München</strong>. WEG-Verwaltung regional,
+                        Software-Entwicklung deutschlandweit remote.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">💰 Software-Kosten?</div>
+                    <div class="faq-answer">
+                        <strong>Basissoftware kostenlos</strong> (Open-Source).
+                        Kostenpflichtig: Projekt-Personalisierung, AI-Training, Hosting.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impressum & Datenschutz Section -->
+        <section class="legal-section">
+            <h3>Impressum & Datenschutzerklärung</h3>
+            <div class="legal-content">
+                <h4>Impressum</h4>
+                <p>
+                    <strong>Angaben gemäß § 5 TMG:</strong>
+                    homeadmin24.de (Einzelunternehmen)
+                    - Nikolas Shewlakow
+                    - Ballaufstr. 35
+                    - 81735 München
+                    - Tel: 0176 240 162 60
+                    - E-Mail: <a href="mailto:info@homeadmin24.de">info@homeadmin24.de</a>
+                    <br>
+                    Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz: DE 258632944
+                    - Wirtschaftsidentifikationsnummer gemäß § 139 c Abgabenordnung: 75 986 381 424
+                </p>
+
+                <h4>Datenschutzerklärung</h4>
+                <p>
+                    <strong>1. Verantwortlicher:</strong>
+                    Nikolas Shewlakow, Ballaufstr. 35, 81735 München - E-Mail: info@homeadmin24.de
+                    <br>
+                    <strong>2. Hosting & Server-Logs:</strong>
+                    Diese Website wird auf GitHub Pages gehostet. Die Live-Demo (demo.homeadmin24.de) läuft auf DigitalOcean. Beide Anbieter erfassen automatisch IP-Adressen, Browser-Typ und Zugriffszeitpunkte in Server-Logs. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an sicherer Bereitstellung). Details: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">GitHub Privacy</a> | <a href="https://www.digitalocean.com/legal/privacy-policy" target="_blank" rel="noopener">DigitalOcean Privacy</a>
+                    <br>
+                    <strong>3. Kontaktaufnahme:</strong>
+                    E-Mail-Kontakt über info@homeadmin24.de (Cloudflare Email Routing). Ihre Daten werden zur Bearbeitung gespeichert. Rechtsgrundlage: Art. 6 Abs. 1 lit. b/f DSGVO. Details: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare Privacy</a>
+                    <br>
+                    <strong>4. Externe Links:</strong>
+                    Diese Website enthält Links zu externen Diensten (GitHub, Demo-Seite). Für deren Datenschutzpraktiken sind die jeweiligen Anbieter verantwortlich.
+                    <br>
+                    <strong>5. Cookies & Analytics:</strong>
+                    Diese Website verwendet keine Cookies und kein Tracking/Analytics.
+                    <br>
+                    <strong>6. Ihre Rechte:</strong>
+                    Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und Widerspruch (Art. 15-21 DSGVO). Beschwerderecht bei Aufsichtsbehörde: <a href="https://www.bfdi.bund.de/" target="_blank" rel="noopener">BfDI</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="mailto:info@homeadmin24.de">Kontakt</a>
+                <a href="https://demo.homeadmin24.de" target="_blank">Live-Demo</a>
+                <a href="https://github.com/homeadmin24/homeadmin24" target="_blank">GitHub</a>
+                <span>© 2025 homeadmin24</span>
+                <span>Made in Munich 🇩🇪</span>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
